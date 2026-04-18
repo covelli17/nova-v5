@@ -1,0 +1,58 @@
+# ===== Credenciales y secretos =====
+.envrc
+*.env
+.env
+.env.*
+!.env.example
+credentials/
+secrets/
+
+# ===== Python =====
+.venv/
+venv/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ===== Logs y caches =====
+logs/*
+!logs/.gitkeep
+*.log
+.cache/
+
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===== pCloud =====
+.pcloudignore
+
+# ===== Archivos de prueba temporales =====
+test_file.txt
+test_link.txt
+
+# ===== Feedback runtime =====
+feedback/runtime/
+feedback/*.json
+!feedback/schema.json
+
+
+# ===== Symlinks específicos (Nova) =====
+/.venv
+/.envrc
