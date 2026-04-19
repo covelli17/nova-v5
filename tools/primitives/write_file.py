@@ -1,5 +1,5 @@
-"""Write file primitive — escribe string a path, crea parents."""
-from pathlib import Path
+"""Write file primitive — escribe string a path dentro del root permitido."""
+from tools.primitives._safety import assert_path_in_allowed_root
 
 
 def write_file(
@@ -8,7 +8,7 @@ def write_file(
     encoding: str = "utf-8",
     overwrite: bool = True,
 ) -> dict:
-    p = Path(path).expanduser().resolve()
+    p = assert_path_in_allowed_root(path)
     if p.exists() and not overwrite:
         raise FileExistsError(f"Ya existe: {p}")
     p.parent.mkdir(parents=True, exist_ok=True)

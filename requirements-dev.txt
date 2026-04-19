@@ -1,0 +1,3 @@
+# Nova v5 — dev/test dependencies
+-r requirements.txt
+pytest==9.0.3

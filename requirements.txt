@@ -1,0 +1,6 @@
+# Nova v5 — runtime dependencies
+# Python >= 3.10 required (PEP 604 union syntax: str | Path)
+anthropic==0.96.0
+anyio==4.13.0
+claude-agent-sdk==0.1.63
+google-genai==1.73.1

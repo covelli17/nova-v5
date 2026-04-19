@@ -1,9 +1,9 @@
-"""Read file primitive — retorna contenido como string."""
-from pathlib import Path
+"""Read file primitive — lee archivo como texto dentro del root permitido."""
+from tools.primitives._safety import assert_path_in_allowed_root
 
 
 def read_file(path: str, encoding: str = "utf-8") -> str:
-    p = Path(path).expanduser().resolve()
+    p = assert_path_in_allowed_root(path)
     if not p.exists():
         raise FileNotFoundError(f"No existe: {p}")
     if p.is_dir():

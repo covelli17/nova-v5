@@ -1,64 +1,39 @@
-# ===== Credenciales y secretos =====
-.envrc
-*.env
-.env
-.env.*
-!.env.example
-credentials/
-secrets/
-
-# ===== Python =====
-.venv/
+# venv (vive en ~/Nova-local, pero por si acaso)
+.venv
 venv/
-ENV/
+
+# Claude Code local state
+.claude/
+
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
 *.egg-info/
 .pytest_cache/
-.mypy_cache/
 .ruff_cache/
+.mypy_cache/
 
-# ===== Logs y caches =====
-logs/*
-!logs/.gitkeep
-*.log
-.cache/
+# Secrets / env
+.envrc
+.env
+*.key
+*.pem
 
-# ===== macOS =====
+# OS
 .DS_Store
-.AppleDouble
-.LSOverride
-._*
+Thumbs.db
 
-# ===== IDE =====
+# Editor
 .vscode/
 .idea/
 *.swp
-*.swo
-*~
 
-# ===== pCloud =====
-.pcloudignore
+# Logs de outcomes — pueden contener payloads con data sensible
+logs/
 
-# ===== Archivos de prueba temporales =====
-test_file.txt
-test_link.txt
-
-# ===== Feedback runtime =====
-feedback/runtime/
-feedback/*.json
-!feedback/schema.json
-
-
-# ===== Symlinks específicos (Nova) =====
-/.venv
-/.envrc
-
-# ===== Nova Guardian =====
+# Nova Guardian — skill global de Claude Code, no del repo
 nova-guardian/
-nova-guardian-v10-backup/
-nova-guardian-v11-backup/
-nova-guardian-report-*.md
+nova-guardian-*/
+
+# pCloud metadata
+.pcloudignore
