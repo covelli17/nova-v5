@@ -192,7 +192,7 @@ Comparado con Railway a escala de 7 bots: ~25 USD/mes con menos observability.
 
 ## Decisiones abiertas
 
-- **D1:** un Slack App multi-workspace o uno por compania. Resolver dia 6.
+- **D1 RESUELTA 2026-04-20 noche:** una Slack App por compania en workspace propio. Tokens separados. Blast radius aislado por compania. Felirni App ya existe (creada 18 abril).
 - **D2:** recuperar codigo fuente de la Lambda de Felirni (no esta en Mac Santiago). Resolver dia 5.
 - **D3:** cluster ECS nuevo nova-atlas-cluster o reutilizar existente. Resolver dia 6.
 - **D4:** canal de prueba para smoke test dia 6. Proponer #nova-atlas-sandbox. Resolver dia 6.
