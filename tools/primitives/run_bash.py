@@ -3,8 +3,7 @@ import subprocess
 
 ALLOWED_COMMANDS = {
     "ls", "cat", "pwd", "echo", "grep", "find", "head", "tail",
-    "wc", "sort", "uniq", "cut", "awk", "sed",
-    "git", "python", "python3", "pip", "pytest", "ruff", "mypy",
+    "wc", "sort", "uniq", "cut", "git",
 }
 
 # Metacaracteres de shell prohibidos en cualquier argumento.

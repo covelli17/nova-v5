@@ -56,6 +56,7 @@ Esquema DynamoDB (single-table design):
   COUNTER         | #TICKET                  | —              | —
 """
 
+import hmac
 import json
 import os
 import uuid
@@ -868,13 +869,18 @@ def update_decision(dec_id, body):
 # ROUTER
 # ═══════════════════════════════════════════════════════════════════
 def lambda_handler(event, context):
+    # CORS preflight (no requiere auth)
+    if event.get('httpMethod', 'GET') == 'OPTIONS':
+        return response(200, {})
+
+    # --- NG-003 fix: autenticacion por API key ---
+    api_key = (event.get('headers') or {}).get('x-api-key', '')
+    if not hmac.compare_digest(api_key, os.environ.get('EXPECTED_API_KEY', '')):
+        return response(401, {'error': 'Unauthorized'})
+
     method = event.get('httpMethod', 'GET')
     path   = event.get('path', '/')
     query  = event.get('queryStringParameters') or {}
-    
-    # CORS preflight
-    if method == 'OPTIONS':
-        return response(200, {})
 
     # Parse body
     body = {}

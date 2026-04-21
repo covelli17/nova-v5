@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 
 import httpx
 
-from runtime.tools.secrets_manager import get_secret
+from runtime.tools.secrets_manager import get_felirni_config
 
 # M-1: IDs solo alfanuméricos + guiones/underscore/#
 _ID_RE = re.compile(r"^[A-Za-z0-9\-_#]+$")
@@ -63,8 +63,8 @@ def _validate_id(value: str, name: str = "id") -> str:
 
 
 def _load_credentials() -> tuple[str, str]:
-    secrets = get_secret("FELIRNI", keys=["API_URL", "API_TOKEN"])
-    return _validate_url(secrets["API_URL"]), secrets["API_TOKEN"]
+    secrets = get_felirni_config()
+    return _validate_url(secrets["api_url"]), secrets["api_key"]
 
 
 class FelirniAPI:

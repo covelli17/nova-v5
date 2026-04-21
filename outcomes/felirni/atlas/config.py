@@ -107,6 +107,6 @@ def build_options(model: str = DEFAULT_MODEL) -> ClaudeAgentOptions:
             f"mcp__{MODELS_SERVER_NAME}__invoke_sonnet",
             f"mcp__{MODELS_SERVER_NAME}__invoke_opus",
         ],
-        permission_mode="bypassPermissions",
+        permission_mode="allowlisted",
         max_turns=20,
     )

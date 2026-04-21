@@ -10,4 +10,5 @@ COPY . .
 ENV MODE=slack_listener
 ENV PYTHONUNBUFFERED=1
 
+USER nobody
 CMD ["python", "-m", "runtime.entrypoint"]

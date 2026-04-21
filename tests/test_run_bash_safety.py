@@ -80,4 +80,4 @@ def test_timeout_respected():
     """Un comando que excede timeout levanta TimeoutExpired."""
     import subprocess
     with pytest.raises(subprocess.TimeoutExpired):
-        run_bash("python3 -c __import__('time').sleep(10)", timeout=1)
+        run_bash("tail -f /dev/null", timeout=1)

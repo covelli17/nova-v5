@@ -1,0 +1,17 @@
+.git
+.envrc
+*.env
+governance/
+logs/
+tests/
+nova-guardian-report*.md
+__pycache__
+*.pyc
+.pytest_cache
+.venv
+Nova-local/
+.claude/
+nova-guardian*/
+*.key
+*.pem
+smoke-test*.py
