@@ -80,3 +80,16 @@
 Antes de arrancar dia 5 leer:
 - Este archivo
 - `governance/architecture/atlas-multi-company-production.md`
+
+## Hallazgo tardio — carpeta ia-board-server en Documents/AWS
+
+Santi detecto al cierre del dia la carpeta `~/Documents/AWS/ia-board-server/` con:
+- Backend Node.js (server.js, package.json)
+- db.json como storage (NO DynamoDB)
+- Scripts de integracion con Nova (nova-webhook.js, nova_board.py)
+
+**No es la Lambda de Felirni** (Felirni es Python 3.12 con DynamoDB). Probable que sea:
+- Backend del board de INTELIGENC(IA) o
+- Prototipo Node de integracion Nova-Board
+
+**Accion dia 5 o despues:** auditar esta carpeta para determinar que es y si vale traerlo al repo Nova o a un proyecto separado. No bloquea D2 (que sigue siendo sobre Lambda Python Felirni).
