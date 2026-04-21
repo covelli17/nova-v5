@@ -1,0 +1,115 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Atlas PM-Agent - ECS Fargate + IAM (nova-atlas-cluster)
+
+Parameters:
+  ImageUri:
+    Type: String
+    Description: ECR image URI
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+
+Resources:
+
+  AtlasExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: nova-atlas-execution-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      Policies:
+        - PolicyName: atlas-secrets-access
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Sub "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:nova/atlas/*"
+
+  AtlasTaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: nova-atlas-task-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: atlas-dynamodb-felirni
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/felirni-db-prod"
+
+  AtlasCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: nova-atlas-cluster
+
+  AtlasLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /nova/atlas
+      RetentionInDays: 30
+
+  AtlasTaskDef:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: nova-atlas-task
+      Cpu: '512'
+      Memory: '1024'
+      NetworkMode: awsvpc
+      RequiresCompatibilities: [FARGATE]
+      ExecutionRoleArn: !GetAtt AtlasExecutionRole.Arn
+      TaskRoleArn: !GetAtt AtlasTaskRole.Arn
+      ContainerDefinitions:
+        - Name: atlas
+          Image: !Ref ImageUri
+          Environment:
+            - Name: MODE
+              Value: slack_listener
+            - Name: ATLAS_MODEL
+              Value: claude-haiku-4-5-20251001
+          Secrets:
+            - Name: ANTHROPIC_API_KEY
+              ValueFrom: !Sub "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:nova/atlas/felirni/config:api_key::"
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /nova/atlas
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: atlas
+
+  AtlasSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Nova Atlas ECS tasks
+      VpcId: !Ref VpcId
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+Outputs:
+  ClusterName:
+    Value: !Ref AtlasCluster
+  ExecutionRoleArn:
+    Value: !GetAtt AtlasExecutionRole.Arn
+  TaskRoleArn:
+    Value: !GetAtt AtlasTaskRole.Arn
