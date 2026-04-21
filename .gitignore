@@ -37,3 +37,4 @@ nova-guardian-*/
 
 # pCloud metadata
 .pcloudignore
+.envrc

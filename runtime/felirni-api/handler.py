@@ -95,7 +95,7 @@ def response(status, body):
         'statusCode': status,
         'headers': {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'https://le0dj70e7i.execute-api.us-east-1.amazonaws.com',
             'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type,x-api-key,Authorization',
         },
@@ -993,9 +993,4 @@ def lambda_handler(event, context):
         return response(404, {'error': 'Endpoint no encontrado', 'path': path, 'method': method})
 
     except Exception as e:
-        import traceback
-        return response(500, {
-            'error': 'Error interno',
-            'message': str(e),
-            'trace': traceback.format_exc(),
-        })
+            return response(500, {'error': 'Error interno'})
