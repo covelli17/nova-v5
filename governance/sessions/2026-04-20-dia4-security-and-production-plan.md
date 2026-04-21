@@ -93,3 +93,22 @@ Santi detecto al cierre del dia la carpeta `~/Documents/AWS/ia-board-server/` co
 - Prototipo Node de integracion Nova-Board
 
 **Accion dia 5 o despues:** auditar esta carpeta para determinar que es y si vale traerlo al repo Nova o a un proyecto separado. No bloquea D2 (que sigue siendo sobre Lambda Python Felirni).
+
+## Addendum — D2 resuelta pre-cierre
+
+**D2 cerrada:** codigo fuente de la Lambda de Felirni bajado desde AWS via `aws lambda get-function` + S3 presigned URL. Archivo unico (handler.py, 1001 lineas, 43KB) en `platform/felirni-api/handler.py`.
+
+Inventario del handler:
+- Version 3.0.0 "Atlas outcome-based"
+- 31 endpoints: tickets (9), epics (7), sprints (7), people (5), decisions (3), metrics (1)
+- Dependencias: solo stdlib + boto3 (ambos provistos por runtime Lambda)
+- Config: TABLE_NAME via env var, TENANT y TICKET_PREFIX hardcoded a FELIRNI/FL
+- Seguridad: zero secrets hardcoded, CORS habilitado con x-api-key, Authorization
+
+Implicacion dia 5: el tool wrapper `platform/tools/felirni_api.py` puede mapear los 31 endpoints directamente desde el docstring del handler — no hay que adivinar el shape de la API.
+
+Implicacion dia 10+: cuando repliquemos el pattern a CuraPlan/M1/Lorentz, toca parametrizar TENANT y TICKET_PREFIX via env var en lugar de hardcode. Refactor trivial de 2 lineas. Decision: posponer hasta tener 2 instancias operativas para no diseñar en vacio.
+
+## Hallazgo secundario — ia-board-server reclasificado
+
+La carpeta `~/Documents/AWS/ia-board-server/` mencionada en el hallazgo tardio anterior NO es backend de ninguna compania del portfolio. Es Node.js con db.json local, architectura diferente. Probable prototipo personal tuyo o proyecto paralelo. No se integra al repo Nova por ahora.
