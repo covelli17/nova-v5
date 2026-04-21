@@ -3,6 +3,7 @@ Entrypoint dual-mode de Atlas.
 MODE=slack_listener  → bot Slack (producción / ECS)
 MODE=cli             → prompt único desde stdin (smoke test / dev)
 """
+import asyncio
 import os
 import sys
 import importlib
@@ -21,4 +22,4 @@ if MODE not in MODES:
 module_path, func_name = MODES[MODE]
 module = importlib.import_module(module_path)
 print(f"[entrypoint] Arrancando modo: {MODE}")
-getattr(module, func_name)()
+asyncio.run(getattr(module, func_name)())

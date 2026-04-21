@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import hmac
 import logging
@@ -273,13 +274,12 @@ class AtlasSlackBot:
         await self._disconnect_socket()
 
 
-if __name__ == "__main__":
-    import asyncio
+async def main():
     logging.basicConfig(level=logging.INFO)
+    async with AtlasSlackBot(mode="socket") as bot:
+        logger.info("Atlas online. Ctrl+C para detener.")
+        await asyncio.Event().wait()
 
-    async def main():
-        async with AtlasSlackBot(mode="socket") as bot:
-            logger.info("Atlas online. Ctrl+C para detener.")
-            await asyncio.Event().wait()
 
+if __name__ == "__main__":
     asyncio.run(main())
