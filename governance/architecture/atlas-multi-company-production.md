@@ -94,7 +94,7 @@ felirni/atlas/
 curaplan/atlas/
 m1/atlas/
 ...
-platform/
+runtime/
 atlas-runtime/
 Dockerfile
 entrypoint.py           # modo listener o scheduled segun env var
@@ -138,7 +138,7 @@ security/
 
 1. Crear companies/lorentz/context.md
 2. Fork outcomes/lorentz/atlas/ desde Felirni
-3. Agregar platform/tools/lorentz_api.py
+3. Agregar runtime/tools/lorentz_api.py
 4. Crear secret nova/atlas/lorentz/config
 5. Agregar 3 EventBridge rules
 6. Crear #lorentz-ops e invitar @atlas
@@ -193,7 +193,7 @@ Comparado con Railway a escala de 7 bots: ~25 USD/mes con menos observability.
 ## Decisiones abiertas
 
 - **D1 RESUELTA 2026-04-20 noche:** una Slack App por compania en workspace propio. Tokens separados. Blast radius aislado por compania. Felirni App ya existe (creada 18 abril).
-- **D2 RESUELTA 2026-04-20 noche:** codigo fuente bajado desde AWS via aws lambda get-function. 1001 lineas en platform/felirni-api/handler.py. Single file monolitico, solo stdlib + boto3, zero secrets. Version 3.0.0 "Atlas outcome-based" con 31 endpoints documentados en el header.
+- **D2 RESUELTA 2026-04-20 noche:** codigo fuente bajado desde AWS via aws lambda get-function. 1001 lineas en runtime/felirni-api/handler.py. Single file monolitico, solo stdlib + boto3, zero secrets. Version 3.0.0 "Atlas outcome-based" con 31 endpoints documentados en el header.
 - **D3:** cluster ECS nuevo nova-atlas-cluster o reutilizar existente. Resolver dia 6.
 - **D4:** canal de prueba para smoke test dia 6. Proponer #nova-atlas-sandbox. Resolver dia 6.
 
