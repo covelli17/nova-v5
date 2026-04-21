@@ -8,12 +8,12 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
 from runtime.tools.felirni_api import FelirniAPI, FelirniAPIError
-from runtime.tools.secrets_manager import get_secret
+from runtime.tools.secrets_manager import get_felirni_config
 
 app = Server("felirni-mcp")
 
 def _get_api() -> FelirniAPI:
-    cfg = get_secret("felirni", keys=["api_url", "api_key"])
+    cfg = get_felirni_config()
     return FelirniAPI(base_url=cfg["api_url"], token=cfg["api_key"])
 
 @app.list_tools()
