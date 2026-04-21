@@ -43,3 +43,9 @@
 2. Agregar AWS::ECS::Service al atlas-platform.yaml
 3. Configurar EXPECTED_API_KEY en Lambda env vars
 4. Verificar logs /nova/atlas sin errores post-arranque
+
+## Fix post-cierre
+- IAM: nova-atlas-task-role sin permiso secretsmanager:GetSecretValue → agregado vía put-role-policy
+- Resource: arn:aws:secretsmanager:us-east-1:105045465301:secret:nova/atlas/*
+- Atlas online: bot_id=B0ATML6JFNY, socket_mode conectado ✅
+- Pendiente día 9: mover esta policy al CloudFormation template
