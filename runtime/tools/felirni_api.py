@@ -76,7 +76,7 @@ class FelirniAPI:
             self._base, self._token = _load_credentials()
         self._client = httpx.AsyncClient(
             base_url=self._base,
-            headers={"Authorization": f"Bearer {self._token}", "Content-Type": "application/json"},
+            headers={"x-api-key": self._token, "Content-Type": "application/json"},
             timeout=15.0,
         )
 
