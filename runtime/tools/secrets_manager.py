@@ -42,3 +42,17 @@ def invalidate(secret_name: str | None = None) -> None:
             _cache.pop(secret_name, None)
         else:
             _cache.clear()
+        return
+    secret_name = _secret_name(company)
+    with _cache_lock:
+        _cache.pop(secret_name, None)
+
+
+def get_felirni_config() -> dict:
+    """Shortcut helper for Felirni configuration.
+
+    Returns all keys from nova/atlas/felirni/config secret.
+    Keys expected: api_url, api_key, slack_bot_token, slack_app_token,
+                   slack_signing_secret, slack_channel_ops.
+    """
+    return get_secret("felirni")
